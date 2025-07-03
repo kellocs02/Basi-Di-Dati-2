@@ -1,8 +1,22 @@
 from faker import Faker
 from Database import Mongo_Connect,driver_neo4j,chiusura_Driver_neo4j
-from random import random,randint,choice
+from random import random,randint,choice,uniform
+import datetime
+
 
 faker=Faker()
+
+#elimina tutti i nodi dal db
+def elimina_tutto(tx):
+    tx.run("MATCH (n) DETACH DELETE n")
+
+#i dataset ci servono anche per inserire i dati in MongoDB
+def converti_date(dataset):
+    for record in dataset:
+        d = record.get("data")
+        if isinstance(d, datetime.date) and not isinstance(d, datetime.datetime):
+            record["data"] = datetime.datetime(d.year, d.month, d.day)
+
 
 def crea_azienda(tx, azienda):
     #Quelle triple virgolette """ ... """ servono a definire una stringa multilinea in Python.
@@ -37,13 +51,17 @@ def crea_prodotto(tx, prodotto):
 
 def prima_transazione_estero(tx,id_azienda,id_prodotto,numero_aziende_totali,numero_aziende_italiane,datasetTransazioni):
     importo=float(faker.pydecimal(left_digits=5, right_digits=2, positive=True))
+    id_venditore=randint(numero_aziende_italiane,numero_aziende_totali-1) #scelgo casualemente un'azienda estera dalla quale fare la prima transazione
     transazione={
         "id_transazione":len(datasetTransazioni)+1,
         "data":faker.date_between(start_date="-7y", end_date="today"),
         "importo_totale":importo,
         "valuta":"€",
         "IVA_addebitata": 0,
-        "IVA_recuperata": 0
+        "IVA_recuperata": 0,
+        "id_venditore": id_venditore,
+        "id_acquirente": id_azienda,
+        "id_prodotto": id_prodotto
     }
     tx.run(
         """
@@ -62,14 +80,14 @@ def prima_transazione_estero(tx,id_azienda,id_prodotto,numero_aziende_totali,num
         """,
             id_azienda=id_azienda,
             id_prodotto=id_prodotto,
-            id_azienda_estera=randint(numero_aziende_italiane,numero_aziende_totali-1),#prende l id casuale di un'azienda estera
+            id_azienda_estera=id_venditore,#prende l id casuale di un'azienda estera
             id=transazione["id_transazione"],
             data=transazione["data"],
             importo=transazione["importo_totale"],
             valuta=transazione["valuta"],
             iva_addeb=transazione["IVA_addebitata"],
             iva_rec=transazione["IVA_recuperata"]
-    )  
+    ) 
     datasetTransazioni.append(transazione)
 
 
@@ -79,7 +97,7 @@ def crea_transazione_nazionale(tx, id_prodotto, id_azienda_venditrice, id_aziend
     #cerchiamo se l'azienda ha già acquistato quel prodotto
     risultato = tx.run(
         """
-        MATCH (a:Azienda {id_azienda: $id_azienda_venditrice})-[:EFFETTUA]->(t:Transazione)-[:CONTIENTE]->(p:Prodotto {id_prodotto: $id_prodotto})
+        MATCH (a:Azienda {id_azienda: $id_azienda_venditrice})-[:EFFETTUA]->(t:Transazione)-[:CONTIENE]->(p:Prodotto {id_prodotto: $id_prodotto})
         RETURN t.importo_totale AS importo
         """,
         id_azienda_venditrice=id_azienda_venditrice,
@@ -89,6 +107,7 @@ def crea_transazione_nazionale(tx, id_prodotto, id_azienda_venditrice, id_aziend
     importo_precedente = importi[0] if importi else None
 
     nuovo_id = len(datasetTransazioni) + 1
+    #genero la data della transazione
     data_tx = faker.date_between(start_date="-7y", end_date="today")
 
     if importo_precedente is None:
@@ -99,7 +118,7 @@ def crea_transazione_nazionale(tx, id_prodotto, id_azienda_venditrice, id_aziend
         importo = round(importo_precedente * 1.10, 2)
 
     iva_addeb = round(importo * 0.22, 2)
-    iva_rec   = round(importo * random.uniform(0, 0.22), 2)
+    iva_rec   = round(importo * uniform(0, 0.22), 2)
 
     tx.run(
         """
@@ -114,7 +133,7 @@ def crea_transazione_nazionale(tx, id_prodotto, id_azienda_venditrice, id_aziend
             IVA_addebitata: $iva_addeb,
             IVA_recuperata: $iva_rec
         })
-        CREATE (venditrice)-[:EFFETTUA]->(t)-[:CONTIENTE]->(p)-[:VENDUTO_A]->(acquirente)
+        CREATE (venditrice)-[:EFFETTUA]->(t)-[:CONTIENE]->(p)-[:VENDUTO_A]->(acquirente)
         """,
         id_azienda_venditrice=id_azienda_venditrice,
         id_azienda_acquirente=id_azienda_acquirente,
@@ -133,10 +152,10 @@ def crea_transazione_nazionale(tx, id_prodotto, id_azienda_venditrice, id_aziend
         "importo_totale": importo,
         "valuta": "€",
         "IVA_addebitata": iva_addeb,
-        "IVA_recuperata": iva_rec
-        "id_venditore": 1001,
-        "id_acquirente": 2001,
-        "id_prodotto": 501
+        "IVA_recuperata": iva_rec,
+        "id_venditore": id_azienda_venditrice,
+        "id_acquirente": id_azienda_acquirente,
+        "id_prodotto": id_prodotto
     }
     datasetTransazioni.append(transazione)
 
@@ -145,45 +164,33 @@ def crea_transazione_nazionale(tx, id_prodotto, id_azienda_venditrice, id_aziend
     
     
 
-def crea_catena (tx,lunghezza_catena,id_aziende,id_prodotto,numero_aziende_totali,numero_aziende_italiane,datasetTransazioni):
+def crea_catena (tx,id_aziende,id_prodotto,numero_aziende_totali,numero_aziende_italiane,datasetTransazioni):
     casuale=randint(1,10)  #genera un numero casuale da 1 a 10   
     if(casuale<3):
         #creo la prima transazione in cui l'azienda italiana acquista da quella estera non pagando l'iva
         prima_transazione_estero(tx,id_aziende[0],id_prodotto,numero_aziende_totali,numero_aziende_italiane,datasetTransazioni)
         #imposto il valore di casuale maggiore di 3, in modo tale da non rieseguire questa condizione nei cicli successivi
-        for i in range(lunghezza_catena): 
-            for i in range(0,len(id_aziende)-1):
-                    crea_transazione_nazionale(tx,id_prodotto, id_aziende[i], id_aziende[i+1], datasetTransazioni)          
-            #crea una transazione tra due aziende italiane 
+    for j in range(0,len(id_aziende)-1):
+            crea_transazione_nazionale(tx,id_prodotto, id_aziende[j], id_aziende[j+1], datasetTransazioni)          
+    #crea una transazione tra due aziende italiane 
             
             
 
 
-
-    
-
+def popola_Neo4j_MongoDB(numero_aziende_totali,numero_aziende_italiane,numero_transazioni,numero_prodotti):
 
 
-
-
-
-#crea l'istanza faker in italiano
-def popola_Neo4j():
-
+    print("siamo entrati in popola_DB\n")
     neo4j_driver=driver_neo4j()
 
 
     paesi_esterni = ["Francia", "Germania", "Spagna", "Paesi Bassi", "Belgio", "Austria"]
-    numero_aziende_totali=3500
-    numero_aziende_italiane=3000
-    numero_transazioni=10000
-    numero_prodotti=1000
     #creo le liste per mettere i record
     datasetAzienda=[] 
     datasetProdotti=[]
     datasetTransazioni=[]
-    datasetEstero=[]
     #aggiungo i record dentro il dataset
+    print("Generazione in corso delle aziende e dei prodotti.")
     for i in range(1,numero_aziende_totali):
         #le aziende italiane avranno id che va da 0 a 2999
         if(i<numero_aziende_italiane):
@@ -203,7 +210,7 @@ def popola_Neo4j():
         }  
         datasetAzienda.append(azienda)
 
-
+    #generazione prodotti
     for k in range(1,numero_prodotti):
         prodotto={
             "id_prodotto":k,
@@ -215,7 +222,11 @@ def popola_Neo4j():
     #bisogna ora inserirlo in neo4j e in mongodb
 
     #immettiamo i nodi nel db
+    print("stiamo per immettere i nodi azienda e prodotti nel database neo4j\n")
     with neo4j_driver.session() as session:
+        # cancella tutto prima di inserire i dati
+        session.execute_write(elimina_tutto)
+        print("tutti i nodi sono stati eliminati dal db neo4j")
         for record in datasetAzienda:
                 #immettiamo i nodi azienda nel db
                 session.execute_write(crea_azienda, record)
@@ -225,10 +236,13 @@ def popola_Neo4j():
 
     #creiamo le relazioni dentro neo4j
     lista_id_aziende=[]
-    lista_relazione_A_T=[]
-    lista_relazione_T_P=[]
+    print("stiamo per generare la sessione di connessione al database neo4j per la creazione delle transazioni\n")
     with neo4j_driver.session() as session:
         #decidiamo quante transazioni vogliamo creare
+
+        #ATTENZIONE, il numero di transazioni che mettiamo in realtà rappresenta il numero di catene_di_transazioni 
+        #che vogliamo generare. Ogni singola catena avrà dalle 3 alle 6 transazioni
+
         for i in range(1, numero_transazioni):
             #decidiamo quanto deve essere grande la catena di transazione
             numero_random=randint(3,7)
@@ -238,46 +252,36 @@ def popola_Neo4j():
                 id_azienda_random = faker.random_int(min=1, max=numero_aziende_totali-1)
                 lista_id_aziende.append(id_azienda_random)
             id_prodotto_random = faker.random_int(min=1, max=numero_prodotti-1) #pesca l'id di un prodotto casualemente da quelli generati
-            session.execute_write(crea_catena,len(lista_id_aziende)-1,lista_id_aziende,id_prodotto_random,numero_aziende_totali,numero_aziende_italiane,datasetTransazioni)
+            session.execute_write(crea_catena,lista_id_aziende,id_prodotto_random,numero_aziende_totali,numero_aziende_italiane,datasetTransazioni)
             #aggiungo a queste liste le relazioni create, mi serviranno dopo per creare le stesse relazioni in mongoDB
             lista_id_aziende=[] #svuota la lista dopo averla usata
-            lista_relazione_A_T.append((id_azienda_random,i))
-            lista_relazione_T_P.append((id_prodotto_random,i))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 #Parte di MongoDB
-client,db=Mongo_Connect()
+    client,db=Mongo_Connect()
 
-#se non esistono crea le collezioni e le assegna a queste variabili
-aziende_collection = db["aziende"]
-transazioni_collection = db["transazioni"]
-prodotti_collection = db["prodotti"]
+    #se non esistono crea le collezioni e le assegna a queste variabili
+    aziende_collection = db["aziende"]
+    transazioni_collection = db["transazioni"]
+    prodotti_collection = db["prodotti"]
 
-#diviamo il dataset in 3 parti
-aziende = [r for r in dataset if "id_azienda" in r]
-transazioni = [r for r in dataset if "id_transazione" in r]
-prodotti = [r for r in dataset if "id_prodotto" in r]
+    #elimino i dati dentro le collezioni se presenti
+    print("Prima del drop:", aziende_collection.count_documents({}))
+    aziende_collection.drop()
+    print("Dopo il drop:", aziende_collection.count_documents({})) 
+    prodotti_collection.drop()
+    transazioni_collection.drop()
 
-#inseriamo i dati nel db mongo
-aziende_collection.insert_many(aziende)
-transazioni_collection.insert_many(transazioni)
-prodotti_collection.insert_many(prodotti)
+    #inseriamo i dati nel db mongo
+    aziende_collection.insert_many(datasetAzienda)
+    prodotti_collection.insert_many(datasetProdotti)
+    converti_date(datasetTransazioni)  #convertiamo le date in un formato leggibile da mongo
+    transazioni_collection.insert_many(datasetTransazioni)
+
+    print("i dati sono stati inseriti , chiusura connessioni in corso\n")
+    #chiudo le connessioni
+    client.close()
+    neo4j_driver.close()
+    
 
 #bisogna gestire le relazioni ora
 #nella collezione transazioni, aggiungi  id_azienda che collega la transazione all’azienda.
