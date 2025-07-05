@@ -1,0 +1,937 @@
+Chiave,valore
+nome_azienda,Herrera LLC
+id_transazione,3
+nome_azienda,Herrera LLC
+id_transazione,60
+nome_azienda,Herrera LLC
+id_transazione,67
+nome_azienda,Herrera LLC
+id_transazione,221
+nome_azienda,Herrera LLC
+id_transazione,348
+nome_azienda,Herrera LLC
+id_transazione,406
+nome_azienda,Herrera LLC
+id_transazione,458
+nome_azienda,Herrera LLC
+id_transazione,459
+nome_azienda,Hudson-Reyes
+id_transazione,197
+nome_azienda,Hudson-Reyes
+id_transazione,220
+nome_azienda,Hudson-Reyes
+id_transazione,223
+nome_azienda,Hudson-Reyes
+id_transazione,378
+nome_azienda,Hudson-Reyes
+id_transazione,395
+nome_azienda,Hudson-Reyes
+id_transazione,457
+nome_azienda,"Jones, Fernandez and Lopez"
+id_transazione,74
+nome_azienda,"Jones, Fernandez and Lopez"
+id_transazione,174
+nome_azienda,"Jones, Fernandez and Lopez"
+id_transazione,232
+nome_azienda,"Jones, Fernandez and Lopez"
+id_transazione,320
+nome_azienda,"Monroe, Hughes and Thompson"
+id_transazione,52
+nome_azienda,"Monroe, Hughes and Thompson"
+id_transazione,123
+nome_azienda,"Monroe, Hughes and Thompson"
+id_transazione,199
+nome_azienda,"Monroe, Hughes and Thompson"
+id_transazione,217
+nome_azienda,"Monroe, Hughes and Thompson"
+id_transazione,275
+nome_azienda,"Monroe, Hughes and Thompson"
+id_transazione,362
+nome_azienda,David-Novak
+id_transazione,224
+nome_azienda,David-Novak
+id_transazione,340
+nome_azienda,David-Novak
+id_transazione,352
+nome_azienda,David-Novak
+id_transazione,391
+nome_azienda,David-Novak
+id_transazione,412
+nome_azienda,David-Novak
+id_transazione,421
+nome_azienda,David-Novak
+id_transazione,435
+nome_azienda,David-Novak
+id_transazione,464
+nome_azienda,Hamilton-Harris
+id_transazione,27
+nome_azienda,Hamilton-Harris
+id_transazione,28
+nome_azienda,Hamilton-Harris
+id_transazione,215
+nome_azienda,Hamilton-Harris
+id_transazione,294
+nome_azienda,Hamilton-Harris
+id_transazione,321
+nome_azienda,Hamilton-Harris
+id_transazione,451
+nome_azienda,Sosa-Travis
+id_transazione,144
+nome_azienda,Sosa-Travis
+id_transazione,180
+nome_azienda,Sosa-Travis
+id_transazione,181
+nome_azienda,Sosa-Travis
+id_transazione,190
+nome_azienda,Sosa-Travis
+id_transazione,397
+nome_azienda,Chang Inc
+id_transazione,151
+nome_azienda,Wallace LLC
+id_transazione,20
+nome_azienda,Wallace LLC
+id_transazione,195
+nome_azienda,Wallace LLC
+id_transazione,207
+nome_azienda,Wallace LLC
+id_transazione,288
+nome_azienda,Wallace LLC
+id_transazione,289
+nome_azienda,"Chen, Williams and Solis"
+id_transazione,5
+nome_azienda,"Chen, Williams and Solis"
+id_transazione,48
+nome_azienda,"Chen, Williams and Solis"
+id_transazione,85
+nome_azienda,"Chen, Williams and Solis"
+id_transazione,138
+nome_azienda,"Chen, Williams and Solis"
+id_transazione,185
+nome_azienda,"Chen, Williams and Solis"
+id_transazione,249
+nome_azienda,"Chen, Williams and Solis"
+id_transazione,419
+nome_azienda,"Chen, Williams and Solis"
+id_transazione,455
+nome_azienda,Valdez-Wright
+id_transazione,49
+nome_azienda,Valdez-Wright
+id_transazione,277
+nome_azienda,Valdez-Wright
+id_transazione,313
+nome_azienda,Smith-Hill
+id_transazione,77
+nome_azienda,Smith-Hill
+id_transazione,114
+nome_azienda,Smith-Hill
+id_transazione,208
+nome_azienda,Smith-Hill
+id_transazione,231
+nome_azienda,Smith-Hill
+id_transazione,331
+nome_azienda,Smith-Hill
+id_transazione,400
+nome_azienda,Robinson-Keller
+id_transazione,103
+nome_azienda,Robinson-Keller
+id_transazione,104
+nome_azienda,Robinson-Keller
+id_transazione,159
+nome_azienda,Robinson-Keller
+id_transazione,242
+nome_azienda,Robinson-Keller
+id_transazione,268
+nome_azienda,Robinson-Keller
+id_transazione,307
+nome_azienda,Robinson-Keller
+id_transazione,399
+nome_azienda,"Shah, Edwards and Ferguson"
+id_transazione,15
+nome_azienda,"Shah, Edwards and Ferguson"
+id_transazione,42
+nome_azienda,"Shah, Edwards and Ferguson"
+id_transazione,130
+nome_azienda,"Shah, Edwards and Ferguson"
+id_transazione,131
+nome_azienda,"Shah, Edwards and Ferguson"
+id_transazione,186
+nome_azienda,"Shah, Edwards and Ferguson"
+id_transazione,284
+nome_azienda,"Shah, Edwards and Ferguson"
+id_transazione,359
+nome_azienda,"Williams, Garner and Massey"
+id_transazione,38
+nome_azienda,"Williams, Garner and Massey"
+id_transazione,39
+nome_azienda,"Williams, Garner and Massey"
+id_transazione,83
+nome_azienda,"Williams, Garner and Massey"
+id_transazione,124
+nome_azienda,"Williams, Garner and Massey"
+id_transazione,255
+nome_azienda,"Williams, Garner and Massey"
+id_transazione,402
+nome_azienda,"Williams, Garner and Massey"
+id_transazione,414
+nome_azienda,"Williams, Garner and Massey"
+id_transazione,415
+nome_azienda,"Williams, Garner and Massey"
+id_transazione,433
+nome_azienda,"Jones, Wilson and Robertson"
+id_transazione,47
+nome_azienda,"Jones, Wilson and Robertson"
+id_transazione,68
+nome_azienda,"Jones, Wilson and Robertson"
+id_transazione,163
+nome_azienda,"Jones, Wilson and Robertson"
+id_transazione,164
+nome_azienda,"Jones, Wilson and Robertson"
+id_transazione,281
+nome_azienda,"Jones, Wilson and Robertson"
+id_transazione,282
+nome_azienda,"Jones, Wilson and Robertson"
+id_transazione,350
+nome_azienda,"Guerrero, Dickson and Wilkins"
+id_transazione,63
+nome_azienda,"Guerrero, Dickson and Wilkins"
+id_transazione,204
+nome_azienda,"Guerrero, Dickson and Wilkins"
+id_transazione,209
+nome_azienda,"Guerrero, Dickson and Wilkins"
+id_transazione,302
+nome_azienda,"Guerrero, Dickson and Wilkins"
+id_transazione,339
+nome_azienda,"Fox, Palmer and Mullins"
+id_transazione,187
+nome_azienda,"Fox, Palmer and Mullins"
+id_transazione,188
+nome_azienda,"Fox, Palmer and Mullins"
+id_transazione,299
+nome_azienda,"Fox, Palmer and Mullins"
+id_transazione,401
+nome_azienda,"Fox, Palmer and Mullins"
+id_transazione,403
+nome_azienda,"Fox, Palmer and Mullins"
+id_transazione,443
+nome_azienda,"Garrett, Gonzalez and Lee"
+id_transazione,126
+nome_azienda,"Garrett, Gonzalez and Lee"
+id_transazione,172
+nome_azienda,"Garrett, Gonzalez and Lee"
+id_transazione,236
+nome_azienda,"Garrett, Gonzalez and Lee"
+id_transazione,253
+nome_azienda,"Garrett, Gonzalez and Lee"
+id_transazione,254
+nome_azienda,"Hernandez, West and Walker"
+id_transazione,140
+nome_azienda,"Hernandez, West and Walker"
+id_transazione,141
+nome_azienda,Moon-Ramirez
+id_transazione,175
+nome_azienda,Moon-Ramirez
+id_transazione,191
+nome_azienda,Moon-Ramirez
+id_transazione,355
+nome_azienda,Moon-Ramirez
+id_transazione,410
+nome_azienda,Moon-Ramirez
+id_transazione,449
+nome_azienda,Bass Group
+id_transazione,23
+nome_azienda,Bass Group
+id_transazione,143
+nome_azienda,Bass Group
+id_transazione,182
+nome_azienda,Bass Group
+id_transazione,202
+nome_azienda,Bass Group
+id_transazione,386
+nome_azienda,Bass Group
+id_transazione,438
+nome_azienda,Hendrix-Smith
+id_transazione,35
+nome_azienda,Hendrix-Smith
+id_transazione,80
+nome_azienda,Hendrix-Smith
+id_transazione,127
+nome_azienda,Hendrix-Smith
+id_transazione,148
+nome_azienda,Hendrix-Smith
+id_transazione,205
+nome_azienda,Hendrix-Smith
+id_transazione,404
+nome_azienda,Hendrix-Smith
+id_transazione,428
+nome_azienda,Wood-Martinez
+id_transazione,76
+nome_azienda,Wood-Martinez
+id_transazione,227
+nome_azienda,Wood-Martinez
+id_transazione,243
+nome_azienda,Wood-Martinez
+id_transazione,271
+nome_azienda,Wood-Martinez
+id_transazione,351
+nome_azienda,Howard-Knox
+id_transazione,19
+nome_azienda,Howard-Knox
+id_transazione,31
+nome_azienda,Howard-Knox
+id_transazione,149
+nome_azienda,Howard-Knox
+id_transazione,161
+nome_azienda,Howard-Knox
+id_transazione,326
+nome_azienda,Howard-Knox
+id_transazione,372
+nome_azienda,Burns-Jefferson
+id_transazione,29
+nome_azienda,Burns-Jefferson
+id_transazione,45
+nome_azienda,Burns-Jefferson
+id_transazione,234
+nome_azienda,Burns-Jefferson
+id_transazione,325
+nome_azienda,Burns-Jefferson
+id_transazione,427
+nome_azienda,Burns-Jefferson
+id_transazione,442
+nome_azienda,Hudson-Munoz
+id_transazione,10
+nome_azienda,Hudson-Munoz
+id_transazione,14
+nome_azienda,Hudson-Munoz
+id_transazione,110
+nome_azienda,Hudson-Munoz
+id_transazione,111
+nome_azienda,Hudson-Munoz
+id_transazione,142
+nome_azienda,Hudson-Munoz
+id_transazione,146
+nome_azienda,Hudson-Munoz
+id_transazione,273
+nome_azienda,Hudson-Munoz
+id_transazione,303
+nome_azienda,Hudson-Munoz
+id_transazione,304
+nome_azienda,Hudson-Munoz
+id_transazione,312
+nome_azienda,Hudson-Munoz
+id_transazione,358
+nome_azienda,Blanchard-Hernandez
+id_transazione,22
+nome_azienda,Blanchard-Hernandez
+id_transazione,51
+nome_azienda,Blanchard-Hernandez
+id_transazione,94
+nome_azienda,Blanchard-Hernandez
+id_transazione,310
+nome_azienda,Blanchard-Hernandez
+id_transazione,311
+nome_azienda,Blanchard-Hernandez
+id_transazione,361
+nome_azienda,Blanchard-Hernandez
+id_transazione,368
+nome_azienda,Jones-Johnson
+id_transazione,137
+nome_azienda,Jones-Johnson
+id_transazione,230
+nome_azienda,Jones-Johnson
+id_transazione,349
+nome_azienda,"Glenn, Wheeler and Rivera"
+id_transazione,375
+nome_azienda,Garcia Ltd
+id_transazione,162
+nome_azienda,Garcia Ltd
+id_transazione,200
+nome_azienda,Garcia Ltd
+id_transazione,229
+nome_azienda,Garcia Ltd
+id_transazione,250
+nome_azienda,Garcia Ltd
+id_transazione,341
+nome_azienda,Garcia Ltd
+id_transazione,444
+nome_azienda,Garcia Ltd
+id_transazione,447
+nome_azienda,Reeves-Valdez
+id_transazione,225
+nome_azienda,Reeves-Valdez
+id_transazione,274
+nome_azienda,Reeves-Valdez
+id_transazione,411
+nome_azienda,Reeves-Valdez
+id_transazione,441
+nome_azienda,Reeves-Valdez
+id_transazione,446
+nome_azienda,"Lucero, Clark and Rivera"
+id_transazione,233
+nome_azienda,"Lucero, Clark and Rivera"
+id_transazione,394
+nome_azienda,"Lucero, Clark and Rivera"
+id_transazione,398
+nome_azienda,"Lucero, Clark and Rivera"
+id_transazione,434
+nome_azienda,"Owens, Clark and Brown"
+id_transazione,16
+nome_azienda,"Owens, Clark and Brown"
+id_transazione,25
+nome_azienda,"Owens, Clark and Brown"
+id_transazione,26
+nome_azienda,"Owens, Clark and Brown"
+id_transazione,32
+nome_azienda,"Owens, Clark and Brown"
+id_transazione,37
+nome_azienda,"Owens, Clark and Brown"
+id_transazione,61
+nome_azienda,"Owens, Clark and Brown"
+id_transazione,70
+nome_azienda,"Owens, Clark and Brown"
+id_transazione,101
+nome_azienda,"Owens, Clark and Brown"
+id_transazione,145
+nome_azienda,"Owens, Clark and Brown"
+id_transazione,169
+nome_azienda,"Owens, Clark and Brown"
+id_transazione,170
+nome_azienda,"Owens, Clark and Brown"
+id_transazione,416
+nome_azienda,White PLC
+id_transazione,40
+nome_azienda,White PLC
+id_transazione,55
+nome_azienda,White PLC
+id_transazione,79
+nome_azienda,White PLC
+id_transazione,322
+nome_azienda,Mcdaniel-Esparza
+id_transazione,33
+nome_azienda,Mcdaniel-Esparza
+id_transazione,265
+nome_azienda,Mcdaniel-Esparza
+id_transazione,295
+nome_azienda,Mcdaniel-Esparza
+id_transazione,296
+nome_azienda,Mcdaniel-Esparza
+id_transazione,450
+nome_azienda,"Smith, Tate and Bean"
+id_transazione,119
+nome_azienda,"Smith, Tate and Bean"
+id_transazione,290
+nome_azienda,"Smith, Tate and Bean"
+id_transazione,292
+nome_azienda,"Smith, Tate and Bean"
+id_transazione,364
+nome_azienda,"Smith, Tate and Bean"
+id_transazione,370
+nome_azienda,"Smith, Tate and Bean"
+id_transazione,393
+nome_azienda,"Smith, Tate and Bean"
+id_transazione,422
+nome_azienda,"Smith, Tate and Bean"
+id_transazione,423
+nome_azienda,Woodard-Barnes
+id_transazione,7
+nome_azienda,Woodard-Barnes
+id_transazione,65
+nome_azienda,Woodard-Barnes
+id_transazione,240
+nome_azienda,Woodard-Barnes
+id_transazione,247
+nome_azienda,Woodard-Barnes
+id_transazione,252
+nome_azienda,Woodard-Barnes
+id_transazione,260
+nome_azienda,Woodard-Barnes
+id_transazione,317
+nome_azienda,Woodard-Barnes
+id_transazione,360
+nome_azienda,"Mcgee, Pena and Larson"
+id_transazione,93
+nome_azienda,"Mcgee, Pena and Larson"
+id_transazione,160
+nome_azienda,"Mcgee, Pena and Larson"
+id_transazione,171
+nome_azienda,"Mcgee, Pena and Larson"
+id_transazione,201
+nome_azienda,"Mcgee, Pena and Larson"
+id_transazione,270
+nome_azienda,"Mcgee, Pena and Larson"
+id_transazione,384
+nome_azienda,"Mcgee, Pena and Larson"
+id_transazione,388
+nome_azienda,"Mcgee, Pena and Larson"
+id_transazione,413
+nome_azienda,"Mcgee, Pena and Larson"
+id_transazione,425
+nome_azienda,Bryant Group
+id_transazione,17
+nome_azienda,Bryant Group
+id_transazione,30
+nome_azienda,Bryant Group
+id_transazione,75
+nome_azienda,Bryant Group
+id_transazione,238
+nome_azienda,Bryant Group
+id_transazione,267
+nome_azienda,Bryant Group
+id_transazione,344
+nome_azienda,Bryant Group
+id_transazione,347
+nome_azienda,Bryant Group
+id_transazione,379
+nome_azienda,"Abbott, Sweeney and Douglas"
+id_transazione,1
+nome_azienda,"Abbott, Sweeney and Douglas"
+id_transazione,206
+nome_azienda,Guerra-Zuniga
+id_transazione,100
+nome_azienda,Guerra-Zuniga
+id_transazione,228
+nome_azienda,Guerra-Zuniga
+id_transazione,445
+nome_azienda,Hill PLC
+id_transazione,89
+nome_azienda,Hill PLC
+id_transazione,293
+nome_azienda,Hill PLC
+id_transazione,432
+nome_azienda,"Baker, Cline and Duran"
+id_transazione,18
+nome_azienda,"Baker, Cline and Duran"
+id_transazione,179
+nome_azienda,"Baker, Cline and Duran"
+id_transazione,214
+nome_azienda,"Baker, Cline and Duran"
+id_transazione,300
+nome_azienda,"Baker, Cline and Duran"
+id_transazione,301
+nome_azienda,"Baker, Cline and Duran"
+id_transazione,306
+nome_azienda,"Brewer, Robinson and Lin"
+id_transazione,66
+nome_azienda,"Brewer, Robinson and Lin"
+id_transazione,71
+nome_azienda,"Brewer, Robinson and Lin"
+id_transazione,109
+nome_azienda,"Brewer, Robinson and Lin"
+id_transazione,118
+nome_azienda,"Brewer, Robinson and Lin"
+id_transazione,121
+nome_azienda,"Brewer, Robinson and Lin"
+id_transazione,466
+nome_azienda,"Morgan, Campos and Willis"
+id_transazione,59
+nome_azienda,Reyes PLC
+id_transazione,150
+nome_azienda,Reyes PLC
+id_transazione,173
+nome_azienda,Reyes PLC
+id_transazione,258
+nome_azienda,Reyes PLC
+id_transazione,430
+nome_azienda,"Gonzales, Chapman and Donaldson"
+id_transazione,108
+nome_azienda,"Gonzales, Chapman and Donaldson"
+id_transazione,155
+nome_azienda,"Gonzales, Chapman and Donaldson"
+id_transazione,272
+nome_azienda,"Gonzales, Chapman and Donaldson"
+id_transazione,383
+nome_azienda,Ryan-Zamora
+id_transazione,72
+nome_azienda,Ryan-Zamora
+id_transazione,245
+nome_azienda,"Cabrera, Ruiz and Brooks"
+id_transazione,2
+nome_azienda,"Cabrera, Ruiz and Brooks"
+id_transazione,62
+nome_azienda,"Cabrera, Ruiz and Brooks"
+id_transazione,116
+nome_azienda,Harris-Bryant
+id_transazione,36
+nome_azienda,Harris-Bryant
+id_transazione,157
+nome_azienda,Harris-Bryant
+id_transazione,177
+nome_azienda,Harris-Bryant
+id_transazione,178
+nome_azienda,Harris-Bryant
+id_transazione,189
+nome_azienda,Harris-Bryant
+id_transazione,263
+nome_azienda,Harris-Bryant
+id_transazione,366
+nome_azienda,"Turner, Ayala and Burns"
+id_transazione,128
+nome_azienda,"Turner, Ayala and Burns"
+id_transazione,431
+nome_azienda,Hull-Perry
+id_transazione,210
+nome_azienda,"Hawkins, Duffy and Campbell"
+id_transazione,4
+nome_azienda,"Hawkins, Duffy and Campbell"
+id_transazione,91
+nome_azienda,"Hawkins, Duffy and Campbell"
+id_transazione,132
+nome_azienda,"Hawkins, Duffy and Campbell"
+id_transazione,237
+nome_azienda,Long Ltd
+id_transazione,64
+nome_azienda,Long Ltd
+id_transazione,98
+nome_azienda,Long Ltd
+id_transazione,122
+nome_azienda,Long Ltd
+id_transazione,129
+nome_azienda,Long Ltd
+id_transazione,283
+nome_azienda,Long Ltd
+id_transazione,329
+nome_azienda,Long Ltd
+id_transazione,390
+nome_azienda,Henderson-Garcia
+id_transazione,90
+nome_azienda,Henderson-Garcia
+id_transazione,105
+nome_azienda,Henderson-Garcia
+id_transazione,147
+nome_azienda,Henderson-Garcia
+id_transazione,158
+nome_azienda,Henderson-Garcia
+id_transazione,248
+nome_azienda,Henderson-Garcia
+id_transazione,298
+nome_azienda,Lopez PLC
+id_transazione,96
+nome_azienda,Lopez PLC
+id_transazione,256
+nome_azienda,Lopez PLC
+id_transazione,257
+nome_azienda,Cooper-Oneill
+id_transazione,8
+nome_azienda,Cooper-Oneill
+id_transazione,9
+nome_azienda,Cooper-Oneill
+id_transazione,21
+nome_azienda,Cooper-Oneill
+id_transazione,168
+nome_azienda,Cooper-Oneill
+id_transazione,396
+nome_azienda,Cooper-Oneill
+id_transazione,408
+nome_azienda,"Mclaughlin, Miller and Collier"
+id_transazione,115
+nome_azienda,"Mclaughlin, Miller and Collier"
+id_transazione,120
+nome_azienda,Gross Group
+id_transazione,86
+nome_azienda,Gross Group
+id_transazione,203
+nome_azienda,Gross Group
+id_transazione,226
+nome_azienda,Gross Group
+id_transazione,323
+nome_azienda,Gross Group
+id_transazione,324
+nome_azienda,"Hernandez, Krueger and Hunt"
+id_transazione,41
+nome_azienda,"Hernandez, Krueger and Hunt"
+id_transazione,251
+nome_azienda,"Hernandez, Krueger and Hunt"
+id_transazione,392
+nome_azienda,"Hernandez, Krueger and Hunt"
+id_transazione,453
+nome_azienda,"Hernandez, Krueger and Hunt"
+id_transazione,454
+nome_azienda,"Williams, Thompson and Thomas"
+id_transazione,424
+nome_azienda,"Williams, Thompson and Thomas"
+id_transazione,436
+nome_azienda,Harris LLC
+id_transazione,73
+nome_azienda,Harris LLC
+id_transazione,452
+nome_azienda,Russell-Ward
+id_transazione,125
+nome_azienda,Russell-Ward
+id_transazione,139
+nome_azienda,Russell-Ward
+id_transazione,196
+nome_azienda,Russell-Ward
+id_transazione,235
+nome_azienda,Russell-Ward
+id_transazione,241
+nome_azienda,Russell-Ward
+id_transazione,380
+nome_azienda,Henderson-Mcintyre
+id_transazione,13
+nome_azienda,Henderson-Mcintyre
+id_transazione,194
+nome_azienda,Henderson-Mcintyre
+id_transazione,336
+nome_azienda,Anderson LLC
+id_transazione,279
+nome_azienda,Anderson LLC
+id_transazione,373
+nome_azienda,Anderson LLC
+id_transazione,448
+nome_azienda,Phillips-Nunez
+id_transazione,43
+nome_azienda,Phillips-Nunez
+id_transazione,56
+nome_azienda,Phillips-Nunez
+id_transazione,88
+nome_azienda,Phillips-Nunez
+id_transazione,218
+nome_azienda,Phillips-Nunez
+id_transazione,376
+nome_azienda,Phillips-Nunez
+id_transazione,377
+nome_azienda,Phillips-Nunez
+id_transazione,467
+nome_azienda,Kelley Group
+id_transazione,57
+nome_azienda,Kelley Group
+id_transazione,315
+nome_azienda,Kelley Group
+id_transazione,316
+nome_azienda,Rojas-Riley
+id_transazione,167
+nome_azienda,Washington and Sons
+id_transazione,165
+nome_azienda,Washington and Sons
+id_transazione,166
+nome_azienda,Washington and Sons
+id_transazione,280
+nome_azienda,Miller and Sons
+id_transazione,6
+nome_azienda,Miller and Sons
+id_transazione,95
+nome_azienda,Miller and Sons
+id_transazione,239
+nome_azienda,Miller and Sons
+id_transazione,278
+nome_azienda,Miller and Sons
+id_transazione,407
+nome_azienda,Miller and Sons
+id_transazione,465
+nome_azienda,"Reed, Davis and Blair"
+id_transazione,78
+nome_azienda,"Reed, Davis and Blair"
+id_transazione,117
+nome_azienda,"Reed, Davis and Blair"
+id_transazione,418
+nome_azienda,"Reed, Davis and Blair"
+id_transazione,461
+nome_azienda,Cross-Edwards
+id_transazione,269
+nome_azienda,Cross-Edwards
+id_transazione,291
+nome_azienda,Cross-Edwards
+id_transazione,333
+nome_azienda,Cross-Edwards
+id_transazione,409
+nome_azienda,Cross-Edwards
+id_transazione,456
+nome_azienda,Cross-Edwards
+id_transazione,468
+nome_azienda,Lopez LLC
+id_transazione,11
+nome_azienda,Lopez LLC
+id_transazione,69
+nome_azienda,Lopez LLC
+id_transazione,113
+nome_azienda,Lopez LLC
+id_transazione,264
+nome_azienda,Lopez LLC
+id_transazione,287
+nome_azienda,Avery-Rogers
+id_transazione,184
+nome_azienda,Avery-Rogers
+id_transazione,318
+nome_azienda,"Nelson, Wagner and Williams"
+id_transazione,154
+nome_azienda,"Nelson, Wagner and Williams"
+id_transazione,183
+nome_azienda,"Nelson, Wagner and Williams"
+id_transazione,308
+nome_azienda,"Nelson, Wagner and Williams"
+id_transazione,309
+nome_azienda,Martin PLC
+id_transazione,97
+nome_azienda,Martin PLC
+id_transazione,371
+nome_azienda,Brown-Manning
+id_transazione,84
+nome_azienda,Brown-Manning
+id_transazione,133
+nome_azienda,Brown-Manning
+id_transazione,136
+nome_azienda,Brown-Manning
+id_transazione,365
+nome_azienda,Brown-Manning
+id_transazione,429
+nome_azienda,"Gonzalez, Hill and Beck"
+id_transazione,54
+nome_azienda,"Gonzalez, Hill and Beck"
+id_transazione,87
+nome_azienda,"Gonzalez, Hill and Beck"
+id_transazione,112
+nome_azienda,Maldonado Ltd
+id_transazione,176
+nome_azienda,Maldonado Ltd
+id_transazione,285
+nome_azienda,Maldonado Ltd
+id_transazione,297
+nome_azienda,Maldonado Ltd
+id_transazione,334
+nome_azienda,Maldonado Ltd
+id_transazione,335
+nome_azienda,Maldonado Ltd
+id_transazione,367
+nome_azienda,Maldonado Ltd
+id_transazione,405
+nome_azienda,Hobbs-Lloyd
+id_transazione,106
+nome_azienda,Hobbs-Lloyd
+id_transazione,107
+nome_azienda,Hobbs-Lloyd
+id_transazione,389
+nome_azienda,Hobbs-Lloyd
+id_transazione,463
+nome_azienda,"Meadows, Hudson and Torres"
+id_transazione,219
+nome_azienda,"Meadows, Hudson and Torres"
+id_transazione,354
+nome_azienda,"Meadows, Hudson and Torres"
+id_transazione,356
+nome_azienda,"Meadows, Hudson and Torres"
+id_transazione,417
+nome_azienda,"Meadows, Hudson and Torres"
+id_transazione,420
+nome_azienda,"Meadows, Hudson and Torres"
+id_transazione,462
+nome_azienda,"Maxwell, Koch and Bell"
+id_transazione,266
+nome_azienda,"Maxwell, Koch and Bell"
+id_transazione,327
+nome_azienda,"Maxwell, Koch and Bell"
+id_transazione,342
+nome_azienda,Walter Ltd
+id_transazione,198
+nome_azienda,Walter Ltd
+id_transazione,385
+nome_azienda,Castro-Hurley
+id_transazione,12
+nome_azienda,Castro-Hurley
+id_transazione,99
+nome_azienda,Castro-Hurley
+id_transazione,102
+nome_azienda,Castro-Hurley
+id_transazione,135
+nome_azienda,Castro-Hurley
+id_transazione,259
+nome_azienda,Castro-Hurley
+id_transazione,314
+nome_azienda,Castro-Hurley
+id_transazione,337
+nome_azienda,Castro-Hurley
+id_transazione,343
+nome_azienda,Jones-Montgomery
+id_transazione,152
+nome_azienda,Jones-Montgomery
+id_transazione,153
+nome_azienda,Jones-Montgomery
+id_transazione,363
+nome_azienda,"Watts, Wells and Allison"
+id_transazione,58
+nome_azienda,"Watts, Wells and Allison"
+id_transazione,330
+nome_azienda,"Watts, Wells and Allison"
+id_transazione,369
+nome_azienda,"Watts, Wells and Allison"
+id_transazione,374
+nome_azienda,"Watts, Wells and Allison"
+id_transazione,387
+nome_azienda,"Watts, Wells and Allison"
+id_transazione,439
+nome_azienda,"Watts, Wells and Allison"
+id_transazione,440
+nome_azienda,Jenkins-Carr
+id_transazione,24
+nome_azienda,Jenkins-Carr
+id_transazione,381
+nome_azienda,Jenkins-Carr
+id_transazione,460
+nome_azienda,"Stephenson, Aguilar and Ramos"
+id_transazione,50
+nome_azienda,"Stephenson, Aguilar and Ramos"
+id_transazione,81
+nome_azienda,"Stephenson, Aguilar and Ramos"
+id_transazione,82
+nome_azienda,"Stephenson, Aguilar and Ramos"
+id_transazione,156
+nome_azienda,"Stephenson, Aguilar and Ramos"
+id_transazione,222
+nome_azienda,"Stephenson, Aguilar and Ramos"
+id_transazione,328
+nome_azienda,"Stephenson, Aguilar and Ramos"
+id_transazione,357
+nome_azienda,"Baker, Smith and Clarke"
+id_transazione,192
+nome_azienda,"Baker, Smith and Clarke"
+id_transazione,193
+nome_azienda,"Baker, Smith and Clarke"
+id_transazione,213
+nome_azienda,"Baker, Smith and Clarke"
+id_transazione,382
+nome_azienda,Bean-Schroeder
+id_transazione,44
+nome_azienda,Bean-Schroeder
+id_transazione,46
+nome_azienda,Bean-Schroeder
+id_transazione,53
+nome_azienda,Bean-Schroeder
+id_transazione,286
+nome_azienda,Browning PLC
+id_transazione,211
+nome_azienda,Browning PLC
+id_transazione,212
+nome_azienda,Browning PLC
+id_transazione,244
+nome_azienda,Browning PLC
+id_transazione,246
+nome_azienda,Browning PLC
+id_transazione,437
+nome_azienda,Phillips-Castaneda
+id_transazione,338
+nome_azienda,Phillips-Castaneda
+id_transazione,426
+nome_azienda,Atkins-Dean
+id_transazione,134
+nome_azienda,Atkins-Dean
+id_transazione,276
+nome_azienda,Atkins-Dean
+id_transazione,319
+nome_azienda,"Lopez, Jones and Jensen"
+id_transazione,92
+nome_azienda,Rodriguez-Smith
+id_transazione,216
+nome_azienda,Rodriguez-Smith
+id_transazione,262
+nome_azienda,Rodriguez-Smith
+id_transazione,305
+nome_azienda,"Smith, Stewart and Clark"
+id_transazione,34
+nome_azienda,"Smith, Stewart and Clark"
+id_transazione,261
+nome_azienda,"Smith, Stewart and Clark"
+id_transazione,332
+nome_azienda,"Smith, Stewart and Clark"
+id_transazione,345
+nome_azienda,"Smith, Stewart and Clark"
+id_transazione,346
+nome_azienda,"Smith, Stewart and Clark"
+id_transazione,353

@@ -65,7 +65,7 @@ def main():
         """,
         """
         MATCH (a:Azienda)-[:EFFETTUA]->(t:Transazione)
-        RETURN a.nome AS nome_azienda, t.id_transazione AS id_transazione
+        RETURN a.nomeAzienda AS nome_azienda, t.id_transazione AS id_transazione
         """,
         """
         MATCH (a:Azienda)-[:EFFETTUA]->(t:Transazione)-[:CONTIENE]->(p:Prodotto)
@@ -78,24 +78,20 @@ def main():
         """
         MATCH (a:Azienda)-[:EFFETTUA]->(t:Transazione)-[:CONTIENE]->(p:Prodotto)
         WHERE t.importo_totale > 500
+        AND t.IVA_addebitata IS NOT NULL
         RETURN 
             a.id_azienda AS id_azienda, 
             p.id_prodotto AS id_prodotto, 
-            t.importo_totale AS importo
+            t.importo_totale AS importo,
+            t.IVA_addebitata AS iva
         ORDER BY t.importo_totale DESC
         """,
         """
-        MATCH (a:Azienda)
-        OPTIONAL MATCH (a)-[:EFFETTUA]->(t:Transazione)-[:CONTIENE]->(p:Prodotto)
+        OPTIONAL MATCH (a)-[:EFFETTUA]->(t:Transazione)
         WITH 
             a.id_azienda AS id_azienda,
-            COUNT(DISTINCT t) AS num_transazioni,
-            SUM(
-                CASE 
-                    WHEN t IS NOT NULL AND t.importo_totale IS NOT NULL THEN t.importo_totale 
-                    ELSE 0 
-                END
-            ) AS totale_importi
+            COUNT(t) AS num_transazioni,  // conta già solo i match esistenti
+            SUM(CASE WHEN t IS NULL THEN 0 ELSE t.importo_totale END) AS totale_importi
         RETURN 
             id_azienda,
             num_transazioni,
@@ -106,26 +102,40 @@ def main():
         ]
     for i,query in enumerate(querys):
         nome_file = f"tempi_Query_Neo4j_{i}.csv"  #modifico il nome del file csv ad ogni iterazione
-        with open(nome_file, "w", newline="") as csvfile:
-            writer = csv.writer(csvfile) #apriamo il file csv in sola scrittura
+        with open(nome_file, "w", newline="") as csvfile:#apriamo il file csv in sola scrittura
+            writer = csv.writer(csvfile) 
             writer.writerow(["Nome_query", "run_id", "tempo_ms"]) #diamo i nomi di intestazioni delle colonne
 
             #prima esecuzione vergine (run_id = 0)
             neo4j_driver = driver_neo4j()   #apro connessione
+
             elapsed, records = esegui_query_neo4j(neo4j_driver, query) #esegue la query
-            neo4j_driver.close()            #chiudo connessione
-            writer.writerow(["Azienda_ID_query", 0, elapsed]) #mette i nomi delle intestazioni
+
+            neo4j_driver.close()#chiudo connessione
+
+            writer.writerow([f"Query{i}", 0, elapsed]) #mette i nomi delle intestazioni
+            print("___Neo4j Prima Esecuzione della query___\n")
             print(f"Run 0: {elapsed:.2f} ms, {len(records)} record trovati") #stampa il tempo in ms con due cifre decimali e dice il numero di record trovati
-            for record in records:
-                for key, value in record.items(): #stampiamo i vari campi dei record trovati
-                    print(f"{key}: {value}")
-                print("---")
+            print("Valori Trovati:\n")
+
+            with open(f"Record Trovati {i}.csv", "w", newline="") as RecordTrovati:
+
+                writer2=csv.writer(RecordTrovati)
+                writer2.writerow(["Chiave", "valore"])
+                for record in records:
+                    for key, value in record.items(): #stampiamo i vari campi dei record trovati
+                        print(f"{key}: {value}")
+                        writer2.writerow([key,value]) #salviamo i record trovati dentro un file
+                    print("---")
+
             #esecuzioni da 1 a 30
             neo4j_driver = driver_neo4j() 
             for run_id in range(1, 31):
                 elapsed, records = esegui_query_neo4j(neo4j_driver, query)
-                writer.writerow(["Azienda_ID_query", run_id, elapsed])
-                print(f"Run {run_id}: {elapsed:.2f} ms, {len(records)} record trovati")
+                writer.writerow(["Query", run_id, elapsed])
+                if(run_id==1):
+                    print(f"___Neo4j Esecuzione della Query {i}___")
+                    print(f"Run {run_id}: {elapsed:.2f} ms, {len(records)} record trovati")
             neo4j_driver.close()   
 
 
@@ -140,85 +150,104 @@ def main():
             # 2) MATCH (a:Azienda)-[:EFFETTUA]->(t:Transazione)
             #    RETURN a.nome AS nome_azienda, t.id_transazione AS id_transazione
             [
-                { "$lookup": {
-                    "from":       "Transazione",
-                    "localField": "id_azienda",
-                    "foreignField":"id_azienda",
-                    "as":         "transazioni"
-                }},
+                {
+                    "$lookup": {
+                        "from": "transazioni",
+                        "localField": "id_azienda",
+                        "foreignField": "id_venditore",
+                        "as": "transazioni"
+                    }
+                },
                 { "$unwind": "$transazioni" },
-                { "$project": {
-                    "_id":            0,
-                    "nome_azienda":   "$nome",
-                    "id_transazione":"$transazioni.id_transazione"
-                }}
-            ],
-
+                {
+                    "$project": {
+                        "_id": 0,
+                        "nome_azienda": "$nomeAzienda",
+                        "id_transazione": "$transazioni.id_transazione"
+                    }
+                }
+             ],
             # 3) MATCH (a:Azienda)-[:EFFETTUA]->(t:Transazione)-[:CONTIENE]->(p:Prodotto)
             #    RETURN a.id_azienda, p.id_prodotto, t.importo_totale AS importo
             #    ORDER BY t.importo_totale DESC
             [
-                { "$lookup": {
-                    "from":        "Transazione",
-                    "localField":  "id_azienda",
-                    "foreignField":"id_azienda",
-                    "as":          "transazioni"
-                }},
-                { "$unwind": "$transazioni" },
-                { "$lookup": {
-                    "from":        "Prodotto",
-                    "localField":  "transazioni.id_transazione",
-                    "foreignField":"id_transazione",
-                    "as":          "prodotti"
-                }},
-                { "$unwind": "$prodotti" },
-                { "$project": {
-                    "_id":            0,
-                    "id_azienda":     "$id_azienda",
-                    "id_prodotto":    "$prodotti.id_prodotto",
-                    "importo":        "$transazioni.importo_totale"
-                }},
-                { "$sort": { "importo": -1 } }
+                    { 
+                        "$lookup": {
+                            "from": "transazioni",
+                            "localField": "id_azienda",
+                            "foreignField": "id_venditore",  
+                            "as": "transazioni"
+                        }
+                    },
+                    { "$unwind": "$transazioni" },
+                    { 
+                        "$lookup": {
+                            "from": "prodotti",
+                            "localField": "transazioni.id_prodotto",
+                            "foreignField": "id_prodotto",
+                            "as": "prodotti"
+                        }
+                    },
+                    { "$unwind": "$prodotti" },
+                    { 
+                        "$project": {
+                            "_id": 0,
+                            "id_azienda": "$id_azienda",
+                            "id_prodotto": "$prodotti.id_prodotto",
+                            "importo": "$transazioni.importo_totale"
+                        }
+                    },
+                    { "$sort": { "importo": -1 } }
             ],
-
-            # 4) stessa di prima + WHERE t.importo_totale > 500
+            #4 query
             [
-                { "$lookup": {
-                    "from":        "Transazione",
-                    "localField":  "id_azienda",
-                    "foreignField":"id_azienda",
-                    "as":          "transazioni"
-                }},
+                { 
+                    "$lookup": {
+                        "from": "transazioni",
+                        "localField": "id_azienda",
+                        "foreignField": "id_venditore",  
+                        "as": "transazioni"
+                    }
+                },
                 { "$unwind": "$transazioni" },
-                { "$match": { "transazioni.importo_totale": { "$gt": 500 } } },
-                { "$lookup": {
-                    "from":        "Prodotto",
-                    "localField":  "transazioni.id_transazione",
-                    "foreignField":"id_transazione",
-                    "as":          "prodotti"
-                }},
+                { 
+                    "$match": { 
+                        "transazioni.importo_totale": { "$gt": 500 },
+                        "transazioni.IVA_addebitata": { "$exists": True, "$ne": None }
+                    } 
+                },
+                { 
+                    "$lookup": {
+                        "from": "prodotti",
+                        "localField": "transazioni.id_prodotto",
+                        "foreignField": "id_prodotto",
+                        "as": "prodotti"
+                    }
+                },
                 { "$unwind": "$prodotti" },
-                { "$project": {
-                    "_id":            0,
-                    "id_azienda":     "$id_azienda",
-                    "id_prodotto":    "$prodotti.id_prodotto",
-                    "importo":        "$transazioni.importo_totale"
-                }},
-                { "$sort": { "importo": -1 } }
+                { 
+                    "$project": {
+                        "_id": 0,
+                        "id_azienda": "$id_azienda",
+                        "id_prodotto": "$prodotti.id_prodotto",
+                        "importo_totale": "$transazioni.importo_totale",
+                        "iva_addebitata": "$transazioni.IVA_addebitata",
+                        "importo_netto": { "$subtract": [ "$transazioni.importo_totale", "$transazioni.IVA_addebitata" ] }
+                    } 
+                },
+                { "$sort": { "importo_totale": -1 } }
             ],
-
             # 5) MATCH Azienda + OPTIONAL MATCH Transazioni/Prodotti +
             #    COUNT DISTINCT transazioni, SUM importi (null→0), ORDER BY
             [
                 { "$lookup": {
-                    "from":        "Transazione",
+                    "from":        "transazioni",
                     "localField":  "id_azienda",
                     "foreignField":"id_azienda",
                     "as":          "transazioni"
                 }},
-                # preserva anche aziende senza transazioni
                 { "$unwind": {
-                    "path":                      "$transazioni",
+                    "path": "$transazioni",
                     "preserveNullAndEmptyArrays": True
                 }},
                 { "$group": {
@@ -239,34 +268,40 @@ def main():
                 { "$sort": { "totale_importi": -1 } }
             ]
         ]
-    
+    input("Premi per vedere la parte di MongoDB\n")
     for j, pipeline in enumerate(pipelines):
+        input("Premi per eseguire la query...")
         nome_file = f"tempi_Query_Mongo{j}.csv"
         with open(nome_file, "w", newline="") as csvfile:
             writer = csv.writer(csvfile)
             writer.writerow(["Nome_query", "run_id", "tempo_ms"])
             
-            client, db = Mongo_Connect()  # apro connessione
-            collection_name = "aziende"   # se vuoi cambiare, fai un dizionario con pipeline -> collezione
+            client, db = Mongo_Connect()  #connessione aperta
+            collection_name = "aziende" 
             
             #prima esecuzione vergine
             elapsed, records = esegui_query_mongodb(db, collection_name, pipeline)
-            writer.writerow([f"MongoQuery{j}", 0, elapsed])
-            print(f"Run 0: {elapsed:.2f} ms, {len(records)} record trovati")
-            for record in records:
+            client.close() #chiusura connessione
+            writer.writerow([f"MongoQuery{j}", 0, elapsed])#prima riga del file cvs
+            print(f"Query {j}")
+            print(f"Run 0: {elapsed:.2f} ms, {len(records)} record trovati") #stampiamo i dati della prima esecuzione e il numero dei record trovati
+            for record in records: #iteriamo sui record trovati
                 for chiave, valore in record.items():#record.items restituisce la lista chiave-valore di record che è un dizionario
                     print(f"{chiave}: {valore}") #stampiamo chiave-valore
                 print("---")
+            client,db=Mongo_Connect()
+
+            print(f"Stiamo entrando nel ciclo delle 30 esecuzioni mongoDB, valore j : {j}")
+            for run_id in range(1, 31): #facciamo le rimanenti esecuzioni
+                elapsed, records = esegui_query_mongodb(db, collection_name, pipeline) #richiamiamo la funzione di esecuzione delle query mongo
+                writer.writerow([f"MongoQuery{run_id}", run_id, elapsed])#per ogni riga abbiamo il numero della query eseguita, l'indice di esecuzione e il tempo di exe
+                if(run_id==1):
+                    print(f"Run {run_id}: {elapsed:.2f} ms, {len(records)} record trovati")
             
-            for run_id in range(1, 31):
-                elapsed, records = esegui_query_mongodb(db, collection_name, pipeline)
-                writer.writerow([f"MongoQuery{j}", run_id, elapsed])
-                print(f"Run {run_id}: {elapsed:.2f} ms, {len(records)} record trovati")
-            
-            client.close() #chiusura connessione
+            client.close()#chiusura connessione
 
     print("Avvio della fase di Genereazione grafici neo4j e MongoDB")
-    subprocess.run(["python", "grafici.py"])
+    subprocess.run(["python", "grafici.py"]) #eseguiamo un sottoprocesso per l'esecuzione del file che genera i grafici
 
 
 if __name__ == "__main__":
