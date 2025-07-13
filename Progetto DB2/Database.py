@@ -10,7 +10,7 @@ DB_NAME = "test"
 
 def Mongo_Connect():
     try:
-        client = MongoClient(MONGO_URI, serverSelectionTimeoutMS=5000)  # timeout 5 sec
+        client = MongoClient(MONGO_URI, serverSelectionTimeoutMS=5000)  #
         # prova a forzare la connessione (lancia un'eccezione se fallisce)
         client.admin.command('ping')
         db = client[DB_NAME]  # seleziona il database 'test'
