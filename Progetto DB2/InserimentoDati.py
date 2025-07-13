@@ -17,9 +17,23 @@ def converti_date(dataset):
         if isinstance(d, datetime.date) and not isinstance(d, datetime.datetime):
             record["data"] = datetime.datetime(d.year, d.month, d.day)
 
+#crea l'entità categoria
+def crea_categoria(tx,categoria):
+     tx.run(
+        """
+        CREATE(c:Categoria {
+        id_categoria:$id,
+        nome_categoria: $nome,
+        IVA:$iva
+        })
+        """,
+        id=categoria["categoria_id"],
+        nome=categoria["nome_categoria"],
+        iva=categoria["IVA"]
+     )
+    
 
 def crea_azienda(tx, azienda):
-    #Quelle triple virgolette """ ... """ servono a definire una stringa multilinea in Python.
     tx.run(
         """
         CREATE (a:Azienda {
@@ -35,23 +49,37 @@ def crea_azienda(tx, azienda):
         data=azienda["data_Fondazione"]
     )
 
-
+#DA FARE QUANDO CREI IL PRODOTTO DEVI COLLEGARLO AD UNA CATEGORIA
 def crea_prodotto(tx, prodotto):
-    tx.run(
+    result = tx.run(
         """
-        CREATE (p:Prodotto {
-            id_prodotto: $id,
-            tipo: $tipo
-        })
+        CREATE (p:Prodotto {id_prodotto: $id, nome_prodotto: $nome_prodotto})
+        WITH p
+        MATCH (c:Categoria)
+        WITH p, c ORDER BY rand() LIMIT 1
+        CREATE (p)-[:APPARTIENE]->(c)
+        RETURN c.id_categoria AS id_categoria
         """,
         id=prodotto["id_prodotto"],
-        tipo=prodotto["tipo"]
+        nome_prodotto=prodotto["nome_prodotto"]
     )
+    record = result.single()
+    id_categoria = record["id_categoria"] if record else None
+
+    prodotto_MongoDB = {
+        "id_prodotto": prodotto["id_prodotto"],
+        "nome_prodotto": prodotto["nome_prodotto"],
+        "id_categoria": id_categoria
+    }
+    
+    return prodotto_MongoDB
 
 
+#genero la prima transazione della catena tra un'azienda italiana e un'azienda estera
 def prima_transazione_estero(tx,id_azienda,id_prodotto,numero_aziende_totali,numero_aziende_italiane,datasetTransazioni):
-    importo=float(faker.pydecimal(left_digits=5, right_digits=2, positive=True))
+    importo=float(faker.pydecimal(left_digits=5, right_digits=2, positive=True)) #creo un importo casuale
     id_venditore=randint(numero_aziende_italiane,numero_aziende_totali-1) #scelgo casualemente un'azienda estera dalla quale fare la prima transazione
+    #creo la transazione (ancora non è nel grafo)
     transazione={
         "id_transazione":len(datasetTransazioni)+1,
         "data":faker.date_between(start_date="-7y", end_date="today"),
@@ -63,11 +91,13 @@ def prima_transazione_estero(tx,id_azienda,id_prodotto,numero_aziende_totali,num
         "id_acquirente": id_azienda,
         "id_prodotto": id_prodotto
     }
+    #creo la transazione sul db e la relazione
     tx.run(
         """
             MATCH(italiana:Azienda{id_azienda: $id_azienda})
             MATCH(p:Prodotto{id_prodotto: $id_prodotto})
             MATCH(estera:Azienda{id_azienda:$id_azienda_estera})
+            MATCH(c:Categoria{id_categoria:$id_categoria})
             CREATE (t:Transazione {
             id_transazione: $id,
             data: $data,
@@ -77,6 +107,7 @@ def prima_transazione_estero(tx,id_azienda,id_prodotto,numero_aziende_totali,num
             IVA_recuperata: $iva_rec
             })
             CREATE (italiana)-[:EFFETTUA]->(t)-[:CONTIENE]->(p)-[:VENDUTO]->(estera)
+            CREATE (p)-[:APPARTIENE]->(c)
         """,
             id_azienda=id_azienda,
             id_prodotto=id_prodotto,
@@ -86,7 +117,8 @@ def prima_transazione_estero(tx,id_azienda,id_prodotto,numero_aziende_totali,num
             importo=transazione["importo_totale"],
             valuta=transazione["valuta"],
             iva_addeb=transazione["IVA_addebitata"],
-            iva_rec=transazione["IVA_recuperata"]
+            iva_rec=transazione["IVA_recuperata"],
+            id_categoria= randint(1, 10)  #aggiungiamo una categoria casuale
     ) 
     datasetTransazioni.append(transazione)
 
@@ -98,28 +130,59 @@ def crea_transazione_nazionale(tx, id_prodotto, id_azienda_venditrice, id_aziend
     risultato = tx.run(
         """
         MATCH (a:Azienda {id_azienda: $id_azienda_venditrice})-[:EFFETTUA]->(t:Transazione)-[:CONTIENE]->(p:Prodotto {id_prodotto: $id_prodotto})
-        RETURN t.importo_totale AS importo
+        MATCH (p)-[:APPARTIENE]->(c:Categoria) 
+        RETURN t.importo_totale AS importo, c.IVA AS IVA
         """,
         id_azienda_venditrice=id_azienda_venditrice,
         id_prodotto=id_prodotto
     )
-    importi = [record["importo"] for record in risultato]
-    importo_precedente = importi[0] if importi else None
+    #se non trova la transazione allora cerchiamo la categoria a parte
+    #da FAREEEE
 
-    nuovo_id = len(datasetTransazioni) + 1
+
+
+
+    #salviamo l importo della transazione e l iva del prodotto SE EFFETTIVAMENTE ABBIAMO TROVATO UNA CORRISPONDENZA
+    record = next(risultato, None)
+    Variabile_di_Accesso=0
+    if record:
+        #print("record IVA:",record["IVA"])
+        IVA_prodotto = record["IVA"]  #utilizziamo l'iva della categoria del prodotto per effettuare i calcoli
+        importo_precedente = record["importo"]
+        Variabile_di_Accesso=1
+    else:
+        #Se l'azienda non ha mai fatto una transazione, andiamo a ricercare l'iva sul prodotto
+        risultato=tx.run(
+            """
+            MATCH(p:Prodotto{id_prodotto: $id_prodotto})-[:APPARTIENE]->(c:Categoria)
+            RETURN c.IVA AS IVA
+            """,
+            id_prodotto=id_prodotto
+        )
+        record=next(risultato,None)
+        #print("siamo nell'else abbiamo trovato l'Iva del prodotto:",record["IVA"])
+        IVA_prodotto=record["IVA"]
+        
+
+    nuovo_id = len(datasetTransazioni) + 1 #genero l'id della transazione in base a tutte quelle che ho generato in precedenza usando la funzione len sul dataset transazioni in cui esse sono contenute
     #genero la data della transazione
     data_tx = faker.date_between(start_date="-7y", end_date="today")
 
-    if importo_precedente is None:
+
+    #se importo_precedente non ha valore genero una nuova transazione con un prezzo casuale
+    if Variabile_di_Accesso == 0:
         #creiamo un prezzo casuale per la prima vendita
         importo = randint(1, 1500)
+        iva_addeb=round(importo *IVA_prodotto )
+        iva_rec=0
     else:
+        #se ho il valore con cui ho comprato quel bene lo rivendo a un prezzo maggiorato
         #rivendiamo al 10% in più
         importo = round(importo_precedente * 1.10, 2)
+    iva_addeb = round(importo * IVA_prodotto, 2)  #arrotona il risultato a due cifre decimali
+    iva_rec   = round(importo * uniform(0, IVA_prodotto), 2) #calcoliamo l iva casualmente tra 0 e l'iva_della_categoria
 
-    iva_addeb = round(importo * 0.22, 2)
-    iva_rec   = round(importo * uniform(0, 0.22), 2)
-
+    #Creo la transazione e la relazione tra i nodi
     tx.run(
         """
         MATCH (venditrice:Azienda {id_azienda: $id_azienda_venditrice})
@@ -183,6 +246,23 @@ def popola_Neo4j_MongoDB(numero_aziende_totali,numero_aziende_italiane,numero_tr
     print("siamo entrati in popola_DB\n")
     neo4j_driver=driver_neo4j()
 
+    datasetCategorie=[]
+    #creiamo le categorie dei prodotti
+    datasetCategorie = [
+        {"categoria_id": "1", "nome_categoria": "Elettronica","IVA":22},
+        {"categoria_id": "2", "nome_categoria": "Beni di lusso","IVA":22},
+        {"categoria_id": "3", "nome_categoria": "Alimentari","IVA":22},
+        {"categoria_id": "4", "nome_categoria": "Abbigliamento","IVA":22},
+        {"categoria_id": "5", "nome_categoria": "Arredamento","IVA":22},
+        {"categoria_id": "6", "nome_categoria": "Materiali edili","IVA":22},
+        {"categoria_id": "7", "nome_categoria": "Farmaceutici","IVA":22},
+        {"categoria_id": "8", "nome_categoria": "Carburanti","IVA":22},
+        {"categoria_id": "9", "nome_categoria": "Software","IVA":22},
+        {"categoria_id": "10", "nome_categoria": "Veicoli","IVA":22}
+    ]
+
+
+
 
     paesi_esterni = ["Francia", "Germania", "Spagna", "Paesi Bassi", "Belgio", "Austria"]
     #creo le liste per mettere i record
@@ -214,25 +294,29 @@ def popola_Neo4j_MongoDB(numero_aziende_totali,numero_aziende_italiane,numero_tr
     for k in range(1,numero_prodotti):
         prodotto={
             "id_prodotto":k,
-            "tipo":faker.word()
+            "nome_prodotto":faker.word()
         }
         datasetProdotti.append(prodotto)
 
+
     #Abbiamo riempito il dataset
     #bisogna ora inserirlo in neo4j e in mongodb
-
+    dataset_prodotti_MongoDB=[]
     #immettiamo i nodi nel db
     print("stiamo per immettere i nodi azienda e prodotti nel database neo4j\n")
     with neo4j_driver.session() as session:
         # cancella tutto prima di inserire i dati
         session.execute_write(elimina_tutto)
         print("tutti i nodi sono stati eliminati dal db neo4j")
+        #aggiungiamo l' entità categoria al db
+        for categoria in datasetCategorie:
+                session.execute_write(crea_categoria,categoria)
         for record in datasetAzienda:
                 #immettiamo i nodi azienda nel db
-                session.execute_write(crea_azienda, record)
+                session.execute_write(crea_azienda,record)
         for record in datasetProdotti:
                 #immettiamo i nodi prodotto nel db
-                session.execute_write(crea_prodotto, record)
+                dataset_prodotti_MongoDB.append(session.execute_write(crea_prodotto, record))
 
     #creiamo le relazioni dentro neo4j
     lista_id_aziende=[]
@@ -245,7 +329,8 @@ def popola_Neo4j_MongoDB(numero_aziende_totali,numero_aziende_italiane,numero_tr
 
         for i in range(1, numero_transazioni):
             #decidiamo quanto deve essere grande la catena di transazione
-            numero_random=randint(3,7)
+            #numero_random=randint(3,7)
+            numero_random=7 #impostiamo come prova il numero di transazioni per ogni catena a 7 (Perchè quando generò l'altro dataset, essendo che randomicamente creo le catene, potrei avere una grande discrepanza di rappresentazione)
             for j in range (1,numero_random):
                 #immagazziniamo un numero random di id aziende dentro una lista per poi creare una catena di transazioni per un prodotto
                 #esempio: numero random=4, allora lista_id_aziende avrà elementi dalla cella 0 alla cella 3 e faremo 3 relaizoni
@@ -260,6 +345,7 @@ def popola_Neo4j_MongoDB(numero_aziende_totali,numero_aziende_italiane,numero_tr
     client,db=Mongo_Connect()
 
     #se non esistono crea le collezioni e le assegna a queste variabili
+    categorie_collection= db["categorie"]
     aziende_collection = db["aziende"]
     transazioni_collection = db["transazioni"]
     prodotti_collection = db["prodotti"]
@@ -270,10 +356,12 @@ def popola_Neo4j_MongoDB(numero_aziende_totali,numero_aziende_italiane,numero_tr
     print("Dopo il drop:", aziende_collection.count_documents({})) 
     prodotti_collection.drop()
     transazioni_collection.drop()
+    categorie_collection.drop()
 
     #inseriamo i dati nel db mongo
+    categorie_collection.insert_many(datasetCategorie)
     aziende_collection.insert_many(datasetAzienda)
-    prodotti_collection.insert_many(datasetProdotti)
+    prodotti_collection.insert_many(dataset_prodotti_MongoDB)
     converti_date(datasetTransazioni)  #convertiamo le date in un formato leggibile da mongo
     transazioni_collection.insert_many(datasetTransazioni)
 
@@ -283,8 +371,5 @@ def popola_Neo4j_MongoDB(numero_aziende_totali,numero_aziende_italiane,numero_tr
     neo4j_driver.close()
     
 
-#bisogna gestire le relazioni ora
-#nella collezione transazioni, aggiungi  id_azienda che collega la transazione all’azienda.
-# nella collezione transazioni, puoi aggiungere un campo prodotti (lista di id_prodotto)
 
 
